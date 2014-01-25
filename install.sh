@@ -8,7 +8,7 @@ Please view README.md for additional information" 1>&2;
 DEST="/home/$USER/.vim"
 SRC=$(pwd)
 DEPENDENCES=("cscope");
-while getopts "hp:" optname;
+while getopts "hfp:" optname;
 do
 	case "$optname" in
 	"h") #help
@@ -18,6 +18,9 @@ do
 	  DEST=$OPTARG
 	
 	  ;;
+    "f") #force install (delete old conf)
+      FORCE=TRUE
+      ;;
 	*)
 	# Соответствий не найдено
 	  usage
@@ -29,12 +32,18 @@ if ! [ -d $DEST ]; then
 	echo "There is no $DEST."
 	mkdir $DEST
 else
-	let "OLDDIR=$RANDOM * $RANDOM * $RANDOM"
-	OLDDIR="/home/$USER/.$OLDDIR"
-	mv $DEST $OLDDIR 
-	mkdir $DEST
-	mv $OLDDIR $DEST"/.oldvim"
-	echo "Your old .vim dir was moved to $DEST/.oldvim"
+    if [ ! $FORCE ]; then
+        let "OLDDIR=$RANDOM * $RANDOM * $RANDOM"
+        OLDDIR="/home/$USER/.vim$OLDDIR"
+        mv $DEST $OLDDIR 
+        mkdir $DEST
+        mv $OLDDIR $DEST"/.oldvim"
+        echo "Your old .vim dir was moved to $DEST/.oldvim"
+    else
+        rm -rf $DEST
+        echo "Your old .vim dir removed"
+        mkdir $DEST
+    fi
 fi
 
 echo "Status: [OK]  Task: Make Directory $DEST" 
@@ -44,9 +53,14 @@ echo "Start installing"
 cp -r $SRC/* $DEST/
 VIMRC="/home/$USER/.vimrc"
 if [ -f $VIMRC ]; then
-	mv "$VIMRC" "$DEST/.oldvimrc"
-	echo "There was .vimrc file in $VIMRC"
-	echo "It was moved to $DEST/.oldvimrc"
+    echo "There was .vimrc file in $VIMRC"
+    if [ ! $FORCE ]; then
+        mv "$VIMRC" "$DEST/.oldvimrc"
+        echo "It was moved to $DEST/.oldvimrc"
+    else
+        rm -rf "$VIMRC"    
+        echo "It was removed" 
+    fi
 fi
 
 ln -s ${DEST}/vimrc /home/$USER/.vimrc
