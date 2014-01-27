@@ -13,6 +13,7 @@ Run in command line:
 3. ./install.sh 
 
 Notice: 
+
 1. You can set your own path where would you like to put your plugins and config, please just add -p <path without '/' at the end>  
 Default value is /home/$USER/.vim
 2. You can install vimconfig in force mode, if you set -f flag.
