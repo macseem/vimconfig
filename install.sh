@@ -8,6 +8,7 @@ Please view README.md for additional information" 1>&2;
 DEST="/home/$USER/.vim"
 SRC=$(pwd)
 DEPENDENCES=("cscope");
+#Scaning args
 while getopts "hfp:" optname;
 do
 	case "$optname" in
@@ -22,12 +23,15 @@ do
       FORCE=TRUE
       ;;
 	*)
-	# Соответствий не найдено
+	# Not found
 	  usage
 	  ;;
 	esac
 done
 
+#TODO: add check dependences before installation
+#Begin Installation
+#Destination folder manipulations
 if ! [ -d $DEST ]; then
 	echo "There is no $DEST."
 	mkdir $DEST
@@ -49,7 +53,7 @@ fi
 echo "Status: [OK]  Task: Make Directory $DEST" 
 echo "Install path is set to $DEST"
 echo "Start installing"
-
+#copy sources and move or delete old configs
 cp -r $SRC/* $DEST/
 VIMRC="/home/$USER/.vimrc"
 if [ -f $VIMRC ]; then
@@ -62,10 +66,10 @@ if [ -f $VIMRC ]; then
         echo "It was removed" 
     fi
 fi
-
+#create symbol link to ~/.vimrc
 ln -s ${DEST}/vimrc /home/$USER/.vimrc
 echo "Status: [OK]  Task: Create .vimrc symlink"
-
+#Finishing installation
 echo -e "\n\nInstallation Finished"
 echo "Please check if these programs are installed"
 for program in $DEPENDENCES; do
