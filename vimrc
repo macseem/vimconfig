@@ -36,3 +36,4 @@ map <silent> b <Plug>CamelCaseMotion_b
 map <silent> e <Plug>CamelCaseMotion_e
 imap <S-Tab> <C-o><<
 map <F12> :NERDTreeToggle<CR>
+nnoremap <F11> :set nonumber!<CR>
