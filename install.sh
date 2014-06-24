@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage() {
-  echo "Usage: $0 [-p <stging>] 
+  echo "Usage: $0 [-p <string>] [-f] 
 Please view README.md for additional information" 1>&2; 
   exit 1;
 }
