@@ -38,3 +38,6 @@ imap <S-Tab> <C-o><<
 map <F12> :NERDTreeToggle<CR>
 nnoremap <S-F12> :set nonumber!<CR>
 set mouse=a
+nmap <C-@> /\c
+vmap <C-@> /\c
+imap <C-@> <C-c>/\c
