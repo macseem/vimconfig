@@ -29,12 +29,16 @@ nmap <F8> :TagbarToggle<CR>
 Plugin 'vim-php/tagbar-phpctags.vim'
 let g:tagbar_phpctags_bin='$HOME/.vim/bin/phpctags'
 let g:tagbar_phpctags_memory_limit = '1024M'
-autocmd VimEnter * if isdirectory( './.git' ) 
-\| execute "!$HOME/.vim/bin/phpctags -R --exclude=kahlan/spec --memory=-1 -f ./.git/tags"  | 
-\endif
+
+function! UpdateTags(file)
+    execute "!$HOME/.vim/bin/phpctags -R --exclude=kahlan/spec --memory=-1 -f " . a:file
+endfunction
+let g:tags_path = './.git/tags'
+inoremap <Leader><F5> <Esc>:call UpdateTags(g:tags_path)<CR>i
+noremap <Leader><F5> <Esc>:call UpdateTags(g:tags_path)<CR>
 Plugin 'easytags.vim'
-let g:easytags_file = './.git/tags'
-set tags=./.git/tags
+let g:easytags_file = g:tags_path
+set tags=s:tags_path
 let g:easytags_dynamic_files = 1
 let g:easytags_languages = {
 \    'php':{
