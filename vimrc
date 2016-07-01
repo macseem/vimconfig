@@ -29,7 +29,9 @@ nmap <F8> :TagbarToggle<CR>
 Plugin 'vim-php/tagbar-phpctags.vim'
 let g:tagbar_phpctags_bin='$HOME/.vim/bin/phpctags'
 let g:tagbar_phpctags_memory_limit = '1024M'
-autocmd VimEnter * if isdirectory( './.git' ) | !$HOME/.vim/bin/phpctags -R --exclude=kahlan/spec --memory=-1 -f ./.git/tags | endif
+autocmd VimEnter * if isdirectory( './.git' ) 
+\| execute "!$HOME/.vim/bin/phpctags -R --exclude=kahlan/spec --memory=-1 -f ./.git/tags"  | 
+\endif
 Plugin 'easytags.vim'
 let g:easytags_file = './.git/tags'
 set tags=./.git/tags
